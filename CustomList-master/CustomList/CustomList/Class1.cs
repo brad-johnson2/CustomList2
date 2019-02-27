@@ -28,7 +28,7 @@ namespace CustomList
         }
 
 
-        //count property online property
+        //count property
 
 
         //indexer
@@ -46,23 +46,12 @@ namespace CustomList
 
         public T[] IncreaseCapacity()
         {
-            //int oldSize = array.Length;
-            //int newSize = capacity * 2;
             T[] newArray = new T[capacity * 2];
 
             for (int i = 0; i < array.Length; i++)
             {
                 newArray[i] = array[i];
             }
-
-            //if (newArray.Length > array.Length)
-            //{
-
-            //    newArray = array;
-            //    return array;
-            //}
-
-            //}
             array = newArray;
             return array;
 
@@ -90,37 +79,97 @@ namespace CustomList
 
         }
 
-        public T[] Remove(T input)
+        public void Remove(T input)
         {
             T[] newArray = new T[capacity];
+           
             bool toggle = false;
+            int tempCount = count;
 
-            for (int i = 0; i < array.Length; i++)
+            for (int i = 0; i < tempCount; i++)
             {
                 if (array[i].Equals(input) && toggle == false)
                 {
+                    count--;
                     toggle = true;
+                }
+                else if (toggle == true)
+                {
+                    newArray[i-1] = array[i];
                 }
                 else
                 {
-                    //newArray.Add(array[i]);
-                    count++;
+                    newArray[i] = array[i];
                 }
-                break;
             }
-            //count--;
-            array = newArray;
-            return array;
+                array = newArray;
+            
+            
+            //return newList;
+
+
+        }
+
+      
+
+        public override string ToString()
+        {
+            string newString = "";
+
+            for (int i = 0; i <= count; i++)
+            {
+                newString += (Convert.ToString(array[i]) + ", ");
+            }
+            
+            return newString;
+
+           
+
 
 
         }
 
 
-        //ToString
+
 
         //overload add for two instances
 
+        public static CustomList<T> operator + (CustomList<T> listOne, CustomList<T> listTwo)
+        {
+            CustomList<T> listResult = new CustomList<T>();
+
+            for (int i = 0; i < listOne.Count; i++)
+            {
+                listResult.Add(listOne[i]);
+            }
+            for (int i = listOne.Count; i < (listOne.Count + listTwo.Count); i++)
+            {
+
+                listResult.Add(listTwo[i - listOne.Count]);
+            }
+            return listResult;
+        }
         //overload remove
+
+        public static CustomList<T> operator -(CustomList<T> listOne, CustomList<T> listTwo)
+        {
+            CustomList<T> listResult = new CustomList<T>();
+
+            for (int i = 0; i <= listOne.Count; i++)
+            { for (int j = 0; i <= listTwo.Count; j++)
+                if (listOne[i].Equals(listTwo[j]))
+                {
+                        break;
+                }
+                else
+                {
+                    listResult.Add(listOne[i]);
+                        break;
+                }
+            }
+            
+            return listResult;
+        }
 
         //zipper 
 

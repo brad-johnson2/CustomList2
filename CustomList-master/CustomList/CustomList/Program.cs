@@ -12,7 +12,19 @@ namespace CustomList
         {
             CustomList<int> list = new CustomList<int>();
 
-            list.Add(2);
+
+            CustomList<int> one = new CustomList<int>();
+            one.Add(1);
+            one.Add(3);
+            one.Add(5);
+            CustomList<int> two = new CustomList<int>();
+            two.Add(2);
+            two.Add(1);
+            two.Add(6);
+            CustomList<int> result = one - two;
+
+
+            Console.WriteLine(result);
             
         }
     }
