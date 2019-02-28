@@ -17,15 +17,19 @@ namespace CustomList
             one.Add(1);
             one.Add(3);
             one.Add(5);
-            CustomList<int> two = new CustomList<int>();
-            two.Add(2);
-            two.Add(1);
-            two.Add(6);
-            CustomList<int> result = one - two;
+        
+
+            foreach (int thing in one)
+            {
+                Console.WriteLine(thing);
+            }
 
 
-            Console.WriteLine(result);
+               
+
+        
+        Console.ReadKey();
             
-        }
+    }
     }
 }

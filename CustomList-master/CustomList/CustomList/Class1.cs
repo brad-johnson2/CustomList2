@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CustomList
 {
-    public class CustomList<T>
+    public class CustomList<T> : IEnumerable
     {
         private int count = 0;
         public int index;
@@ -82,7 +83,7 @@ namespace CustomList
         public void Remove(T input)
         {
             T[] newArray = new T[capacity];
-           
+
             bool toggle = false;
             int tempCount = count;
 
@@ -95,22 +96,22 @@ namespace CustomList
                 }
                 else if (toggle == true)
                 {
-                    newArray[i-1] = array[i];
+                    newArray[i - 1] = array[i];
                 }
                 else
                 {
                     newArray[i] = array[i];
                 }
             }
-                array = newArray;
-            
-            
+            array = newArray;
+
+
             //return newList;
 
 
         }
 
-      
+
 
         public override string ToString()
         {
@@ -120,10 +121,10 @@ namespace CustomList
             {
                 newString += (Convert.ToString(array[i]) + ", ");
             }
-            
+
             return newString;
 
-           
+
 
 
 
@@ -134,7 +135,7 @@ namespace CustomList
 
         //overload add for two instances
 
-        public static CustomList<T> operator + (CustomList<T> listOne, CustomList<T> listTwo)
+        public static CustomList<T> operator +(CustomList<T> listOne, CustomList<T> listTwo)
         {
             CustomList<T> listResult = new CustomList<T>();
 
@@ -155,27 +156,81 @@ namespace CustomList
         {
             CustomList<T> listResult = new CustomList<T>();
 
-            for (int i = 0; i <= listOne.Count; i++)
-            { for (int j = 0; i <= listTwo.Count; j++)
-                if (listOne[i].Equals(listTwo[j]))
-                {
+            for (int i = 0; i <= listTwo.Count; i++)
+            { for (int j = 0; j <= listOne.Count; j++)
+                    if (listTwo[i].Equals(listOne[j]))
+                    {
+                        listOne.Remove(listOne[j]);
                         break;
-                }
-                else
-                {
-                    listResult.Add(listOne[i]);
-                        break;
-                }
+                    }
+
+                listResult = listOne;
+
+                //else
+                //{
+                //    listResult.Add(listOne[j]);
+                //        break;
+                //}      
             }
-            
+
             return listResult;
         }
 
         //zipper 
 
-        //iterator
+        public CustomList<T> Zip(CustomList<T> listOne, CustomList<T> listTwo)
+        {
+            CustomList<T> listResult = new CustomList<T>();
 
+            if (listOne.Count.Equals(listTwo.Count))
+            {
+                for (int i = 0; i <= (listOne.Count + listTwo.Count); i++)
+                {
+                    listResult.Add(listOne[i]);
+                    listResult.Add(listTwo[i]);
+                }
+
+            }
+            if (listOne.Count > listTwo.Count)
+            {
+                for (int i = 0; i <= listTwo.Count; i++)
+                {
+                    listResult.Add(listOne[i]);
+                    listResult.Add(listTwo[i]);
+                }
+                for (int i = listTwo.Count; i <= listOne.Count; i++)
+                {
+                    listResult.Add(listOne[i]);
+                }
+
+            }
+            if (listTwo.Count > listOne.Count)
+            {
+                for (int i = 0; i <= listOne.Count; i++)
+                {
+                    listResult.Add(listOne[i]);
+                    listResult.Add(listTwo[i]);
+                }
+                for (int i = listOne.Count; i <= listTwo.Count; i++)
+                {
+                    listResult.Add(listOne[i]);
+                }
+            }
+            return listResult;
+        }
+
+
+
+        public IEnumerator GetEnumerator()
+        {
+           
+
+            for (int i = 0; i < Count; i++)
+
+                yield return this[i];
+        }
 
 
     }
 }
+
